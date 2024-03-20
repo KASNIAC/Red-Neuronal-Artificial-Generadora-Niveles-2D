@@ -1,0 +1,13 @@
+1) "evaluador_generados.cpp" es el programa generador de casos de entrenamiento para la red. Primero se necesita un conjunto de niveles, los cuales son generados por la red de la etapa anterior, a través del programa "evaluador_generador.py"
+
+2) el programa "evaluador_generador.py" crea el archivo "ejemplo_niveles.txt" (redirigiendo la entrada con >). Con muy poca probabilidad estos niveles generados por la red pueden estar repetidos o NO tener solucion.
+
+3) "evaluador_generados.cpp" lee los datos del archivo "ejemplo_niveles.txt" y resuelve cada uno de estos niveles, mandadolos a /entrenamiento y /validacion. El programa se asegura de que todos los niveles tengan solución y que además NO exista ningún nivel repetido. Estos casos se usaran para entrenar a la red que resuelve niveles.
+
+4) "entrenamiento_gen_sol.py" es el programa encargado de entrenar a la red neuronal que generará las soluciones para cada uno de estos niveles, a partir de /entrenamiento y /validacion. El entrenamiento se quedá en un error aproximado de 5.0
+
+5) Una vez terminado el entrenamiento se genera "generador_cadena.pt" que se evalua desde el programa "evaluador_gen_sol.py". Es desde este programa donde ya podemos observar los resultados de la red entrenada.
+
+6) El programa "evaluador_gen_sol.py" se adaptó para que evaluará los niveles de /entrenamiento y /pruebas, de esta manera la red genera soluciones para todos estos niveles y los almacena en "niveles_soluciones.txt" (redireccionando la entrada >)
+
+7) El programa "validator_flexible_prueba_red.cpp" lee el archivo "niveles_soluciones.txt" y evalua todos los niveles con sus respectivas soluciones, de esta manera se obtiene el numero de soluciones que la red genero de manera correcta e incorrecta.

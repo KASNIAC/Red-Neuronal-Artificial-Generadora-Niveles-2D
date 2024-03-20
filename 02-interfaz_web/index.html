@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>KASNIAC-lunky PI</title>
+   <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body onload="carga_datos()">
+   <div class="div-entrada">
+      <form id="formulario">
+         <div class="div-formulario">
+            <div class="div-formulario-columna">
+               <span class="div-titulos-cajas">Mapa de caracteres </span>
+               <textarea name="matriz" rows="11" placeholder="Coloca el mapa de caracteres" wrap="off"
+                  required></textarea>
+            </div>
+            <div class="div-formulario-columna">
+               <span class="div-titulos-cajas">Cadena </span>
+               <textarea name="cadena" rows="4" placeholder="Escribe tu solución" wrap="off" required></textarea>
+               <!-- <input type="text" name="cadena" value="" placeholder="Escribe tu cadena" required style="width: 50em;"> -->
+
+               <div class="div-variables">
+                  <div class="div-variables-item">
+                     <span class="div-titulos-cajas">Pico </span>
+                     <input class="item-variable" type="number" step="1" min="1" max="10" name="pico" value="5"
+                        placeholder="Máximo 10" title="Cantidad de veces que kasniac podrá usar el pico" required>
+                  </div>
+
+                  <div class="div-variables-item">
+                     <span class="div-titulos-cajas">Trampolin </span>
+                     <input class="item-variable" type="number" step="1" min="1" max="10" name="trampolin" value="5"
+                        placeholder="Máximo 10" title="Cantidad de veces que kasniac podrá usar el trampolin" required>
+                  </div>
+
+                  <div class="div-variables-item">
+                     <span class="div-titulos-cajas">Vidas </span>
+                     <input class="item-variable" type="number" step="1" min="1" max="10" name="vidas" value="5"
+                        placeholder="Máximo 10" title="Cantidad de vidas que kasniac tendrá" required>
+                  </div>
+
+               </div>
+               <span class="div-titulos-cajas">Retardo</span>
+               <input class="item-rango" type="range" min="100.9" max="1100.9" name="retardo" value="600">
+            </div>
+         </div>
+
+      </form>
+
+      <div class="div-botones">
+         <button onclick="carga_datos()">Cargar</button>
+         <button onclick="limpia_tablero()">Limpiar</button>
+         <button onclick="ejecuta_solucion()" id="correr" disabled>Correr</button>
+         <button onclick="alterna_pausa()" id="pausar" disabled>Pausar</button>
+         <button onclick="mostrar_instrucciones(true)" id="btn-mostrar-instrucciones">Instrucciones</button>
+      </div>
+   </div>
+
+   <!-- <div class="div-instrucciones"> -->
+   <dialog class="modal" id="mostrar-instrucciones">
+      <div class="div-modal-superior">
+         <button onclick="mostrar_instrucciones(false)" id="btn-cerrar-instrucciones">×</button>
+         <h1 class="titulo-modal">Instrucciones</h1>
+      </div>
+      <div class="div-modal-texto">
+         <span class="div-modal-fuente1">En el campo "</span> <span class="div-modal-fuente2">MAPA DE CARACTERES</span>
+         <span class="div-modal-fuente1">"</span>
+         <span class="div-modal-fuente1">se debe de colocar el mapa del nivel a jugar, formado por los siguientes
+            caracteres:</span>
+         <ul>
+            <li><span class="div-modal-fuente3">#</span><span class="div-modal-fuente1">: representa un bloque
+                  indestructible (bloque gris en el mapa).</span></li>
+            <li><span class="div-modal-fuente3">@</span><span class="div-modal-fuente1">: representa un bloque
+                  destructible (bloque amarillo en el mapa que se puede romper con el pico).</span></li>
+            <li><span class="div-modal-fuente3">*</span><span class="div-modal-fuente1">: representa a un
+                  enemigo (se puede eliminar con el látigo).</span></li>
+            <li><span class="div-modal-fuente3">E</span><span class="div-modal-fuente1">: representa la entrada del
+                  nivel, indica el punto de partida de KASNIAC y es un caracter único.</span></li>
+            <li><span class="div-modal-fuente3">S</span><span class="div-modal-fuente1">: representa la salida del
+                  nivel, indica el punto al que KASNIAC debe de llegar y es un caracter único.</span></li>
+         </ul>
+
+         <br> <br> <br>
+
+         <span class="div-modal-fuente1">En el campo "</span> <span class="div-modal-fuente2">CADENA</span> <span
+            class="div-modal-fuente1">"</span>
+         <span class="div-modal-fuente1">se debe de colocar la solución al nivel en forma de una cadena de caracteres,
+            formada por los siguientes caracteres:</span>
+
+         <br>
+
+         <ul>
+            <li><span class="div-modal-fuente1">Si KASNIAC está en piso firme:</span></li>
+         </ul>
+         <ul>
+            <ul>
+               <li><span class="div-modal-fuente3">l</span><span class="div-modal-fuente1">: KASNIAC se mueve una
+                     posición a la izquierda.</span></li>
+               <li><span class="div-modal-fuente3">r</span><span class="div-modal-fuente1">: KASNIAC se mueve una
+                     posición a la derecha.</span></li>
+               <li><span class="div-modal-fuente3">L</span><span class="div-modal-fuente1">: KASNIAC rompe la roca
+                     frágil que está una posición a la izquierda.</span></li>
+               <li><span class="div-modal-fuente3">R</span><span class="div-modal-fuente1">: KASNIAC rompe la roca
+                     frágil que está una posición a la derecha.</span></li>
+               <li><span class="div-modal-fuente3">D</span><span class="div-modal-fuente1">: KASNIAC rompe la roca
+                     frágil que está una posición abajo de él.</span></li>
+               <li><span class="div-modal-fuente3">L</span><span class="div-modal-fuente1">: KASNIAC rompe la roca
+                     frágil que está una posición arriba de él.</span></li>
+               <li><span class="div-modal-fuente3">T</span><span class="div-modal-fuente1">: KASNIAC salta de manera
+                     completamente vertical un máximo de cuatro posiciones hacia arriba.</span></li>
+               <li><span class="div-modal-fuente3">
+                     < </span><span class="div-modal-fuente1">: KASNIAC da un latigazo una
+                           posición a la izquierda.</span></li>
+               <li><span class="div-modal-fuente3">></span><span class="div-modal-fuente1">: KASNIAC da un latigazo una
+                     posición a la derecha.</span></li>
+               <li><span class="div-modal-fuente3">-</span><span class="div-modal-fuente1">: KASNIAC no hace
+                     nada.</span></li>
+            </ul>
+         </ul>
+
+         <br>
+
+         <ul>
+            <li><span class="div-modal-fuente1">Si KASNIAC está cayendo:</span></li>
+         </ul>
+         <ul>
+            <ul>
+               <li><span class="div-modal-fuente3">d</span><span class="div-modal-fuente1">: KASNIAC cae de manera
+                     completamente vertical una posición hacia abajo.</span></li>
+               <li><span class="div-modal-fuente3">l</span><span class="div-modal-fuente1">: KASNIAC cae de manera
+                     diagonal, una posición hacia abajo una a la izquierda.</span></li>
+               <li><span class="div-modal-fuente3">l</span><span class="div-modal-fuente1">: KASNIAC cae de manera
+                     diagonal, una posición hacia abajo una a la derecha.</span></li>
+               <li><span class="div-modal-fuente3">< </span><span class="div-modal-fuente1">: KASNIAC da un latigazo una
+                     posición a la izquierda y cae una posición hacia abajo.</span></li>
+               <li><span class="div-modal-fuente3">></span><span class="div-modal-fuente1">: KASNIAC da un latigazo una
+                     posición a la derecha y cae una posición hacia abajo.</span></li>
+               <li><span class="div-modal-fuente3">-</span><span class="div-modal-fuente1">: KASNIAC no hace nada, pero
+                     cae una posición hacia abajo de manera vertical.</span></li>
+            </ul>
+         </ul>
+
+         <br> <br> <br>
+
+         <span class="div-modal-fuente1">En cualquiera de los otros campos se controla el inventario de KASNIAC. La
+            barra con nombre "</span>
+         <span class="div-modal-fuente2">RETARDO</span>
+         <span class="div-modal-fuente1">" controla la velocidad a la que el personaje realiza las acciones. </span>
+      </div>
+   </dialog>
+   <!-- </div> -->
+
+   <div class="div-dibuja">
+      <svg viewBox="0 0 1000 75" width="100%" height="100%" id="svg-datos">
+         <!--dominant-baseline="middle" text-anchor="middle"-->
+         <text class="titulo" x="0%" y="50%" dominant-baseline="central" font-family="ROG Fonts" font-size="50" dx="10"
+            dy="0">
+            KASNIAC-lunky
+         </text>
+
+         <g id="svg-picos"></g>
+         <g id="svg-trampolines"></g>
+         <g id="svg-vidas"></g>
+      </svg>
+   </div>
+   <div class="div-dibuja">
+      <svg viewBox="0 0 1000 400" width="100%" height="100%" id="svg-tablero">
+         <g id="svg-fondo"></g>
+         <g id="svg-bloques"></g>
+         <g id="svg-trampolines-usados"></g>
+         <g id="svg-lineas"></g>
+         <g id="svg-personaje"></g>
+
+         <symbol id="bloque-rompible">
+            <image href="images/bloque_rompible.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="bloque-irrompible">
+            <image href="images/bloque_irrompible.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="bloque-entrada">
+            <image href="images/bloque_entrada.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="bloque-salida">
+            <image href="images/bloque_salida.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="bloque-enemigo">
+            <image href="images/bloque_enemigo.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="fondo">
+            <image href="images/fondo.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="personaje-kasniac">
+            <image href="images/personaje_kasniac.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="personaje-oso">
+            <image href="images/personaje_oso.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="picos-disponibles">
+            <image href="images/pico.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="trampolines-disponibles">
+            <image href="images/trampolin.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="vidas-disponibles">
+            <image href="images/vida.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+         <symbol id="latigo-disponibles">
+            <image href="images/latigo.png" height="100%" width="100%" preserveAspectRatio="none"></image>
+         </symbol>
+      </svg>
+   </div>
+
+   <script src="js/script.js"></script>
+
+</body>
+
+</html>

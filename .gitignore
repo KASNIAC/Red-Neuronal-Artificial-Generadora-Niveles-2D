@@ -1,0 +1,4 @@
+*.exe
+*.o
+/con-enemigos
+/sin-enemigos

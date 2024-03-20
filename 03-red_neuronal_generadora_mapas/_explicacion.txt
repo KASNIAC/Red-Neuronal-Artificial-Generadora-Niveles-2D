@@ -1,0 +1,10 @@
+1) generador_aleatorio.cpp genera todos los mapas de las carpetas "entrenamiento_discriminador" y "validacion_discriminador", los cuales serán usados para entrenar a la red "discriminadora" de mapas, que recibe como entrada un nivel y produce como salida un valor que indica que tan bueno es el nivel, en el sentido de que sí es posible resolverlo (variando la cantidad de vidas, picos, trampolines, etc)
+
+2) El programa "entrenamiendo_discriminador.py" recibe como entrenamiento los casos generados por generador_aleatorio.cpp (los de las carpetas "entrenamiento_discriminador" y "validacion_discriminador"), de esta manera se tendrá la primera red neuronal que será capaz de emitir una calificación determinada para un nivel dado.
+
+3) El programa "entrenamiento_generador.py" recibe como entreamiento "ruido" y adicionalmente 4 valores que indican la dificultad para el nivel que queremos obtener. Esta segunda red neuronal es la que deberá poder generar los niveles en forma de caracteres que se pasarán a la primera red para poder ser evaluados. En este mismo programa se ejecuta la EVALUACION de "entrenamiento_discriminador.py"
+
+4) El programa "evaluador_generador.py" se encarga de la EVALUACION de "entrenamiento_generador.py", es decir, es el programa que se usa para poder usar la red neuronal "generador.pt"
+
+5) El programa "evaluador_generados.cpp" se encarga de verificar que los mapas generador por la red neuronal (a través del programa "evaluador_generador.py") sean en verdad factibles.
+
