@@ -1,6 +1,6 @@
 @font-face {
    font-family: 'ROG Fonts';
-   src: url('fuente/ROGFonts-Regular.otf') format('truetype');
+   src: url('../fuente/ROGFonts-Regular.otf') format('truetype');
    /* Reemplaza con la ruta correcta y formato de tu fuente */
 }
 
@@ -191,6 +191,30 @@ select {
    min-width: fit-content;
    min-height: fit-content;
 }
+
+/* Footer */
+.footer {
+   display: flex;
+   justify-content: space-between;
+   gap: 25px;
+}
+.footer p, ul{
+   margin: 5px 0;
+}
+.footer li::marker{
+   color: rgb(174, 107, 1);
+}
+.colaboradores p:nth-child(1){
+   text-align: center;
+   font-weight: bolder;
+   color: rgb(174, 107, 1);
+}
+.contacto p:nth-child(1){
+   text-align: center;
+   font-weight: bolder;
+   color: rgb(174, 107, 1);
+}
+/* Footer */
 
 @media (max-width: 767px) {
    /* Estilos para tamaños de pantalla más pequeños */
