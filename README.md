@@ -11,15 +11,19 @@ Posteriormente se hicieron una serie de modificaciones al código para permitir 
 - [01-Validador](#01-Validador)
 - [02-Interfaz_web](#02-Interfaz_web)
 - [03-Red_neuronal_generadora_mapas](#03-Red_neuronal_generadora_mapas)
-- [04-Red_neuronal_generador_cadenas_soluciones](#04-Red_neuronal_generador_cadenas_soluciones)
+- [04-Red_neuronal_generadora_de_cadenas_soluciones](#04-Red_neuronal_generadora_de_cadenas_soluciones)
 
 <br>
 
   ## 01-Validador
 En este directorio encontrarás el programa **validador-grafico-flexible.cpp**, el programa recibe 2 argumentos desde la consola: una nivel y una cadena. Este programa intenará ejecutar cada una de las acciones descritas por la cadena sobre el nivel. El modo de uso se encuentra en los archivos de compilacion **compilar_y_usar.bat** para windows o **compilar_y_usar.sh para linux**.
 
+<br>
+
   ## 02-Interfaz web
 En este directorio se encuentra la interfaz gráfica web en donde se puede realizar la visualización de una manera mas amigable. El núcleo se encuentra en la carpeta js en donde el validador descrito en el apartado anterior ha sido traducido al lenguaje JavsScript para cumplir con el mismo objetivo, solo que ahora recibiendo las entradas desde un formulario HTML y no como argumentos de consola.
+
+<br>
 
   ## 03-Red_neuronal_generadora_mapas
 1) generador_aleatorio.cpp genera todos los mapas de las carpetas "entrenamiento_discriminador" y "validacion_discriminador", los cuales serán usados para entrenar a la red "discriminadora" de mapas, que recibe como entrada un nivel y produce como salida un valor que indica que tan bueno es el nivel, en el sentido de que sí es posible resolverlo (variando la cantidad de vidas, picos, trampolines, etc)
@@ -32,8 +36,10 @@ En este directorio se encuentra la interfaz gráfica web en donde se puede reali
 
 5) El programa "evaluador_generados.cpp" se encarga de verificar que los mapas generador por la red neuronal (a través del programa "evaluador_generador.py") sean en verdad factibles.
 
-  ## 04-Red_neuronal_generador_cadenas_soluciones
-  1) "evaluador_generados.cpp" es el programa generador de casos de entrenamiento para la red. Primero se necesita un conjunto de niveles, los cuales son generados por la red de la etapa anterior, a través del programa "evaluador_generador.py"
+<br>
+
+  ## 04-Red_neuronal_generadora_de_cadenas_soluciones
+1) "evaluador_generados.cpp" es el programa generador de casos de entrenamiento para la red. Primero se necesita un conjunto de niveles, los cuales son generados por la red de la etapa anterior, a través del programa "evaluador_generador.py"
 
 2) el programa "evaluador_generador.py" crea el archivo "ejemplo_niveles.txt" (redirigiendo la entrada con >). Con muy poca probabilidad estos niveles generados por la red pueden estar repetidos o NO tener solucion.
 
@@ -46,3 +52,5 @@ En este directorio se encuentra la interfaz gráfica web en donde se puede reali
 6) El programa "evaluador_gen_sol.py" se adaptó para que evaluará los niveles de /entrenamiento y /pruebas, de esta manera la red genera soluciones para todos estos niveles y los almacena en "niveles_soluciones.txt" (redireccionando la entrada >)
 
 7) El programa "validator_flexible_prueba_red.cpp" lee el archivo "niveles_soluciones.txt" y evalua todos los niveles con sus respectivas soluciones, de esta manera se obtiene el numero de soluciones que la red genero de manera correcta e incorrecta.
+
+<br>
