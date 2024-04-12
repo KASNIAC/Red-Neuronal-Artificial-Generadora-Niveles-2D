@@ -6,7 +6,7 @@ Durante el desarrollo del presente proyecto fue necesario resolver un problema d
 
 Posteriormente se hicieron una serie de modificaciones al código para permitir más elementos como los enemigos. A continuación, los dejo con un recorrido a través del proyecto, en caso de que deseen probarlo ☝🤓.
 
-## Tabla de Contenidos
+## Tabla de contenido
 
 - [01-Validador](#01-Validador)
 - [02-Interfaz_web](#02-Interfaz_web)
